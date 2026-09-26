@@ -1,0 +1,26 @@
+[project]
+name = "localcodex"
+version = "0.1.0"
+description = "An offline Codex fallback for a 24 GB Apple Silicon MacBook."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = [".local", "results"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["E402"] # Tests import the script directory after adding it to sys.path.
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.9",
+]

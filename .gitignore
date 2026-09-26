@@ -1,0 +1,12 @@
+.DS_Store
+.venv/
+.local/
+results/
+__pycache__/
+.ruff_cache/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+*.gguf
+*.safetensors

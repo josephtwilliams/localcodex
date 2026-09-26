@@ -1,0 +1,69 @@
+{
+  "ling-omlx": {
+    "runtime": "omlx",
+    "model": "ling3.0-tiny-local",
+    "repo": "mlx-works/Ling-3.0-tiny-oQ4e",
+    "revision": "0336f5581c2b83dde482d79c0ec0600e045bd157",
+    "responses": "adapter",
+    "context": 32768,
+    "auto_compact": 28672
+  },
+  "qwen-omlx": {
+    "runtime": "omlx",
+    "model": "qwen3.5-9b-local",
+    "repo": "mlx-community/Qwen3.5-9B-4bit",
+    "revision": "8b2b98c00a6b4d291155e4890773ca8f769aee53",
+    "responses": "native",
+    "context": 32768,
+    "auto_compact": 28672
+  },
+  "ling-rapid": {
+    "runtime": "rapid",
+    "model": "ling3.0-tiny-local",
+    "repo": "rapid-mlx/Ling-3.0-tiny-MLX-4bit",
+    "revision": "328a497f3eb2cdd3d064f1da2b1084a2791387d5",
+    "responses": "native",
+    "hybrid": true,
+    "tool_parser": "glm47"
+  },
+  "ling": {
+    "runtime": "llama",
+    "model": "ling3.0-tiny-local",
+    "repo": "inclusionAI/Ling-3.0-tiny-GGUF",
+    "revision": "01b850e29ed5b44e2b810160ff980a9bb353296f",
+    "file": "Ling-3.0-tiny-Q4_K_M.gguf",
+    "responses": "native"
+  },
+  "qwen-llama": {
+    "runtime": "llama",
+    "model": "qwen3.5-9b-local",
+    "repo": "bartowski/Qwen_Qwen3.5-9B-GGUF",
+    "revision": "182be2fd6c7bc44887d88a91cb03ff009cc9f549",
+    "file": "Qwen_Qwen3.5-9B-Q4_K_M.gguf",
+    "responses": "adapter"
+  },
+  "qwen-rapid": {
+    "runtime": "rapid",
+    "model": "qwen3.5-9b-local",
+    "repo": "mlx-community/Qwen3.5-9B-4bit",
+    "revision": "8b2b98c00a6b4d291155e4890773ca8f769aee53",
+    "responses": "native",
+    "hybrid": false,
+    "tool_parser": "hermes"
+  },
+  "qwen": {
+    "runtime": "mlx",
+    "model": "qwen3.5-9b-local",
+    "repo": "mlx-community/Qwen3.5-9B-4bit",
+    "revision": "8b2b98c00a6b4d291155e4890773ca8f769aee53",
+    "responses": "adapter"
+  },
+  "ling-mlx": {
+    "runtime": "mlx",
+    "model": "ling3.0-tiny-local",
+    "repo": "mlx-works/Ling-3.0-tiny-oQ4e",
+    "revision": "0336f5581c2b83dde482d79c0ec0600e045bd157",
+    "responses": "adapter",
+    "architecture_patch": "omlx-ling"
+  }
+}
