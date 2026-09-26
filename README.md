@@ -1,13 +1,11 @@
 # localcodex
 
-A local Codex fallback for when there’s no Wi-Fi, built for a 24 GB Apple Silicon MacBook.
-Run models locally and compare new ones through the Codex CLI.
-Default: Qwen3.5 9B on oMLX. Both oMLX profiles use 32K context and compaction at 28K.
+Run models offline with Codex on a 24 GB Apple Silicon MacBook.
+Default: Qwen3.5 9B on oMLX, with 32K context.
 
 ## Run
 
-Requires Apple Silicon, uv and Codex CLI. llama.cpp also needs Homebrew.
-Download the runtime and model with `setup` while online; local inference then works offline.
+Requires Apple Silicon, uv and Codex CLI. Run setup online once.
 
 ```sh
 uv sync
@@ -15,16 +13,19 @@ uv sync
 ./chat -C ~/Development/my-project
 ```
 
-Use `-C` to work in another project. `/exit` stops inference and unloads the model.
+`/exit` unloads the model.
+
+## Compare models
 
 ```sh
-./chat -m ling-omlx
 ./chat list
+./chat setup ling-omlx
+./chat -m ling-omlx
 ./chat compare ling-omlx qwen-omlx --runs 3
 ```
 
-To try a new model, copy a profile in [models.json](models.json), set its checkpoint
-and pinned revision, then run `./chat setup NAME` and `./chat compare NAME qwen-omlx`.
+To add a model, copy a profile in [models.json](models.json), update its checkpoint
+and revision, then run `./chat setup NAME` and `./chat compare NAME qwen-omlx`.
 
 ## Results
 
@@ -32,8 +33,7 @@ Measured on a 24 GB M4 Pro with 8K context, 26 September 2026.
 
 ### Codex tasks
 
-One attempt per task. Read requires a tool call and an exact answer;
-edit fixes a Python function and passes five external checks.
+One attempt each: read a file exactly, then fix a function. Times include Codex and tools.
 
 | Model / runtime | Read | Read time | Edit | Edit time | Peak RSS | Peak footprint |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -41,13 +41,11 @@ edit fixes a Python function and passes five external checks.
 | Qwen3.5 9B / oMLX | 1/1 | 14.71 s | 1/1 | 57.01 s | 5.19 GiB | 7.06 GiB |
 | Ling 3.0 Tiny / patched MLX-LM | 1/1 | 5.34 s | 1/1 | 17.22 s | 4.63 GiB | 5.00 GiB |
 
-Ling/oMLX read the correct contents but added extra text. These are integration checks,
-not a general coding-quality score.
+These are basic integration checks, not coding-quality scores.
 
 ### Runtime comparison
 
-Three warm generations per pairing, 256-token cap. Speed was measured directly
-against the inference server; the separate file-read checks used Codex.
+Three warm generations, capped at 256 tokens. Speed tests use the server directly; file-read tests use Codex.
 
 | Model | Runtime | tok/s | Peak RSS | Peak footprint | Exact Codex reads |
 | --- | --- | ---: | ---: | ---: | ---: |
@@ -60,21 +58,6 @@ against the inference server; the separate file-read checks used Codex.
 | Qwen3.5 9B | Rapid-MLX | 47.76 | 4.87 GiB | 5.83 GiB | 3/3 |
 | Qwen3.5 9B | oMLX | 48.76 | 5.28 GiB | 5.43 GiB | 3/3 |
 
-Memory in this table covers generation only. RSS and footprint are non-additive
-engine measurements, not total RAM use; llama.cpp's low footprint excludes clean
-mapped weights. Checkpoints, quantization and API adapters differ across some
-profiles. Qwen/MLX-LM read the files but returned blank final answers.
-
-Comparisons run file-read and code-edit tasks through Codex, one model at a time.
-Timing includes model inference and tools. Results are saved locally under
-`results/`, which Git ignores.
-
-## Development
-
-```sh
-uv run ruff check .
-uv run ruff format --check .
-uv run python -m unittest discover -s tests -v
-```
-
-Inference runtimes have separate pinned environments under `.local/`.
+RSS and footprint are separate engine memory measurements, not total system RAM.
+llama.cpp's footprint excludes clean mapped weights. Checkpoints and quantization
+vary across some profiles.
